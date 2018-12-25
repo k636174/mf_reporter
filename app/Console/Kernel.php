@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        // MFのCSVからインポートするコマンド
+        Commands\ImportCSV::class
     ];
 
     /**
@@ -26,6 +27,12 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('csv:import')->everyMinute();
+        $schedule->command('csv:import')->everyMinute();
+        $schedule->command('csv:import')->everyMinute();
+        $schedule->command('csv:import')->everyMinute();
+        $schedule->command('csv:import')->everyMinute();
+
     }
 
     /**
