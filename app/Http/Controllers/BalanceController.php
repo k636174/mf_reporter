@@ -25,8 +25,10 @@ class BalanceController extends Controller
     {
         $wf_date = $request->input('fdate');
         $wt_date = $request->input('tdate');
+        $wc1_val = $request->input('category_1');
         if(empty($wf_date)) $wf_date = '2018-01-01';
         if(empty($wt_date)) $wt_date = '2018-12-31';
+        if(empty($wc1_val)) $wc1_val = '%';
 
         $page_name = "【支出・収入】一覧【 $wf_date 〜 $wt_date 】";
 
@@ -81,7 +83,9 @@ class BalanceController extends Controller
             ->get();
 
         $balance_list = new Balance();
-        $data = $balance_list->paginate(100);
+        $data = $balance_list
+            ->where('category_1','LIKE',$wc1_val)
+            ->paginate(100);
         return view('balance.index', compact(
             'page_name',
             'data',

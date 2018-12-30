@@ -31,7 +31,7 @@
                                         @foreach($expense_list as $item)
                                             <tr>
                                                 <td>{{$item->cnt}}</td>
-                                                <td>{{$item->category_1}}</td>
+                                                <td><a href="/balance/?category_1={{$item->category_1}}">{{$item->category_1}}</a></td>
                                                 <!--<td>$item->category_2}}</td>-->
                                                 <td>{{$item->sum * -1}}</td>
                                             </tr>
