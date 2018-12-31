@@ -8,12 +8,22 @@
                     <div class="card-header">{{$page_name}}</div>
                     <div class="card-body">
 
+                        <!-- ボタン等設置エリア -->
+                        <div  class="card mb-2">
+                            <div class="col-12">
+                                <canvas id="myChart"></canvas>
+                            </div>
+
+                        </div>
+
                         <!-- メッセージエリア -->
                         <div  class="card mb-2">
                             <div class="card-body row">
 
-
                                 <div class="col-6">
+
+                                    <canvas id="myChart"></canvas>
+
                                     <!-- TODO: 検索画面を実装-->
                                     支出一覧
                                     <table border="1">
@@ -95,7 +105,6 @@
                                             <td>{{$item->cnt}}</td>
                                             <td>{{$item->category_1}}</td>
                                             <td>{{$item->category_2}}</td>
-                                            <td>{{$item->body}}</td>
                                             <td>{{$item->sum}}</td>
                                         </tr>
                                     @endforeach
@@ -177,5 +186,32 @@
                 document.getElementById('form_' + e.dataset.id).submit();
             }
         }
+
+        window.onload = function(){
+            // グラフ描画
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: [
+                        @foreach($expense_list as $item)
+                        "{{$item->category_1}}",
+                        @endforeach
+                    ],
+                    datasets: [{
+                        backgroundColor: [
+                            @foreach($expense_list as $item)
+                            "{{sprintf("#%06x",rand(0x000000, 0xFFFFFF))}}",
+                            @endforeach
+                        ],
+                        data: [
+                            @foreach($expense_list as $item)
+                            {{$item->sum * -1}},
+                            @endforeach
+                        ]
+                    }]
+                }
+            });
+        };
     </script>
 @endsection

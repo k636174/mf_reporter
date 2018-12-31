@@ -56,8 +56,8 @@ class BalanceController extends Controller
 
         // 収入トータル
         $income_list = DB::table('balance_list')
-            ->select(DB::raw('category_1 ,category_2 ,body ,COUNT(*) AS cnt , sum(amount) AS sum'))
-            ->groupBy('category_1','category_2','body')
+            ->select(DB::raw('category_1 ,category_2 ,COUNT(*) AS cnt , sum(amount) AS sum'))
+            ->groupBy('category_1','category_2')
             ->where('is_confirmed','=',1)
             ->where('is_transfer','=',0)
             ->where('amount','>',0)
@@ -85,6 +85,8 @@ class BalanceController extends Controller
         $balance_list = new Balance();
         $data = $balance_list
             ->where('category_1','LIKE',$wc1_val)
+            ->where('use_date','>=',$wf_date)
+            ->where('use_date','<=',$wt_date)
             ->paginate(100);
         return view('balance.index', compact(
             'page_name',
